@@ -1,0 +1,22 @@
+@layer starwind.layout {
+    :where(sw-switching) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--sw-switching-gap, var(--sw-gap, var(--sw-space-s-m, 1rem)));
+    }
+
+    /*
+    Switching hack:
+        flex-basis becomes huge when container < threshold, forcing 1 column.
+        When container >= threshold, flex-basis becomes negative/0-ish, allowing
+        multi-column.
+    */
+    :where(sw-switching) > :where(*) {
+        flex-grow: 1;
+        flex-basis: calc(
+            (var(--sw-switching-threshold, var(--sw-threshold, 45rem)) - 100%) *
+                999
+        );
+        min-inline-size: 0;
+    }
+}
